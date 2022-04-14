@@ -1,45 +1,39 @@
-import { Router } from "next/router";
 import { Toolbar } from "../../components/toolbar";
+import ArticleList from "../../components/articlesList";
 import styles from "../../styles/Feed.module.css";
 import { useRouter } from "next/router";
+// import vars from "../../utils/funcs";
 
 export const Feed = ({ pageNumber, articles }) => {
   const router = useRouter();
-  console.log(articles);
+  const prevPage = () => {
+    if (pageNumber > 1) {
+      router.push(`/feed/${pageNumber - 1}`);
+    }
+  };
+
+  const nextPage = () => {
+    if (pageNumber < 5) {
+      router.push(`/feed/${pageNumber + 1}`);
+    }
+  };
+
   return (
     <div className='page-container'>
       <Toolbar />
       <div className={styles.main}>
-        {articles.map((article, index) => {
-          return (
-            <div key={index} className={styles.post}>
-              <h1 onClick={() => (window.location.href = article.url)}>
-                {article.title}
-              </h1>
-              <p>{article.title}</p>
-              {!!article.urlToImage && <img src={article.urlToImage} />}
-            </div>
-          );
-        })}
+        <ArticleList articles={articles} key={"articles"} />
       </div>
       <div className={styles.paginator}>
         <div
-          onClick={() => {
-            if (pageNumber > 1) {
-              router.push(`/feed/${pageNumber - 1}`);
-            }
-          }}
+          onClick={prevPage}
           className={pageNumber === 1 ? styles.disabled : styles.active}
         >
           Previous Page
         </div>
         <div> #{pageNumber}</div>
         <div
-          onClick={() => {
-            if (pageNumber < 5) {
-              router.push(`/feed/${pageNumber + 1}`);
-            }
-          }}
+          onClick={nextPage}
           className={pageNumber === 5 ? styles.disabled : styles.active}
         >
           Next Page
@@ -68,6 +62,7 @@ export const getServerSideProps = async (pageContext) => {
     }
   ).then((res) => res.json());
 
+  // const apiResponse = vars.funcs().fetch(pageNumber);
   const { articles } = apiResponse;
 
   return {
