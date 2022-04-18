@@ -8,11 +8,16 @@ const funcs = () => {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_NEWS_KEY}`,
           },
         }
-      ).then((res) => res.json());
+      )
+        .then((res) => res.json())
+        .then((r) => console.log(r));
+    },
+    log: function (pageNumber) {
+      console.log(pageNumber);
     },
   };
 };
 
 const vars = { funcs };
 
-export { vars };
+export default vars;

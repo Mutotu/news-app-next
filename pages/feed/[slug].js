@@ -62,7 +62,8 @@ export const getServerSideProps = async (pageContext) => {
     }
   ).then((res) => res.json());
 
-  // const apiResponse = vars.funcs().fetch(pageNumber);
+  // const articles = vars.funcs().log(pageNumber);
+  // console.log(articles);
   const { articles } = apiResponse;
 
   return {
